@@ -60,12 +60,21 @@ class PlaylistsController extends AbstractController {
                     'categories' => $categories
         ]);
     }
-
+    /**
+     * 
+     * @param type $champ
+     * @param type $ordre
+     * @return Response
+     * @throws \InvalidArgumentException
+     */
     #[Route('/playlists/tri/{champ}/{ordre}', name: 'playlists.sort')]
     public function sort($champ, $ordre): Response {
         switch ($champ) {
             case "name":
                 $playlists = $this->playlistRepository->findAllOrderByName($ordre);
+                break;
+            case "nbFormations":
+                $playlists = $this->playlistRepository->findAllOrderByTotalNb($ordre);
                 break;
             default:
                 throw new \InvalidArgumentException("Invalid sorting parameter: $champ");
