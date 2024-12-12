@@ -55,6 +55,7 @@ class AdminFormationsController extends AbstractController {
                     'categories' => $categories,
         ]);
     }
+
     /**
      * 
      * @param type $champ
@@ -63,15 +64,15 @@ class AdminFormationsController extends AbstractController {
      * @return Response
      */
     #[Route('/admin/tri/{champ}/{ordre}/{table}', name: 'admin.formation.sort')]
-    public function sort($champ, $ordre, $table=""): Response{
+    public function sort($champ, $ordre, $table = ""): Response {
         $formations = $this->formationRepository->findAllOrderBy($champ, $ordre, $table);
         $categories = $this->categorieRepository->findAll();
         return $this->render(self::PAGES_FORMATIONS_ADMIN, [
-            'formations' => $formations,
-            'categories' => $categories
+                    'formations' => $formations,
+                    'categories' => $categories
         ]);
     }
-    
+
     /**
      * 
      * @param type $champ
@@ -80,70 +81,65 @@ class AdminFormationsController extends AbstractController {
      * @return Response
      */
     #[Route('/admin/recherche/{champ}/{table}', name: 'admin.formations.findallcontain')]
-    public function findAllContain($champ, Request $request, $table=""): Response{
+    public function findAllContain($champ, Request $request, $table = ""): Response {
         $valeur = $request->get("recherche");
         $formations = $this->formationRepository->findByContainValue($champ, $valeur, $table);
         $categories = $this->categorieRepository->findAll();
         return $this->render(self::PAGES_FORMATIONS_ADMIN, [
-            'formations' => $formations,
-            'categories' => $categories,
-            'valeur' => $valeur,
-            'table' => $table
-        ]);
-    }
-    
-    #[Route('/admin/suppr/{id}', name: 'admin.formations.suppr')]
-    public function suppr(int $id) : Response
-    {
-        $formation = $this->formationRepository->find($id);
-        if($formation){
-            //récupération de la playlist associée à la formation
-            $playlist = $formation->getPlaylist();
-            //si la formation est liée à une playlist retrait de celle ci
-            if($playlist){
-                $playlist->removeFormation($formation);
-            }
-            //Suppression dans la bdd
-        $this->formationRepository->remove($formation);
-        }
-        
-        
-        return $this->redirectToRoute('admin.formations');
-    }
-    
-    #[Route('/admin/edit/{id}', name: 'admin.formation.edit')]
-    public function edit(int $id, Request $request): Response{
-        $formation = $this->formationRepository->find($id);
-        $formformation = $this->createForm(FormationType::class, $formation);
-        
-        $formformation->handleRequest($request);
-        if($formformation->isSubmitted()&& $formformation->isValid()){
-            $this->formationRepository->add($formation);
-            return $this->redirectToRoute('admin.formations');
-        }
-        
-        return $this->render("admin/admin.formation.edit.html.twig", [
-            'formation' => $formation,
-            'formformation' => $formformation->createView()
-        ]);
-    }
-    
-    #[Route('/admin/ajout', name: 'admin.formation.ajout')]
-    public function ajout(Request $request): Response{
-        $formation = new Formation();
-        $formformation = $this->createForm(FormationType::class, $formation);
-        
-        $formformation->handleRequest($request);
-        if($formformation->isSubmitted()&& $formformation->isValid()){
-            $this->formationRepository->add($formation);
-            return $this->redirectToRoute('admin.formations');
-        }
-        
-        return $this->render("admin/admin.formation.ajout.html.twig", [
-            'formation' => $formation,
-            'formformation' => $formformation->createView()
+                    'formations' => $formations,
+                    'categories' => $categories,
+                    'valeur' => $valeur,
+                    'table' => $table
         ]);
     }
 
-    
+    #[Route('/admin/suppr/{id}', name: 'admin.formations.suppr')]
+    public function suppr(Formation $formation): Response {
+        if ($formation) {
+            //récupération de la playlist associée à la formation
+            $playlist = $formation->getPlaylist();
+            //si la formation est liée à une playlist retrait de celle ci
+            if ($playlist) {
+                $playlist->removeFormation($formation);
+            }
+            //Suppression dans la bdd
+            $this->formationRepository->remove($formation);
+        }
+
+
+        return $this->redirectToRoute('admin.formations');
+    }
+
+    #[Route('/admin/edit/{id}', name: 'admin.formation.edit')]
+    public function edit(Formation $formation, Request $request): Response {
+        $formFormation = $this->createForm(FormationType::class, $formation);
+
+        $formFormation->handleRequest($request);
+        if ($formFormation->isSubmitted() && $formFormation->isValid()) {
+            $this->formationRepository->add($formation);
+            return $this->redirectToRoute('admin.formations');
+        }
+
+        return $this->render("admin/admin.formation.edit.html.twig", [
+                    'formation' => $formation,
+                    'formFormation' => $formFormation->createView()
+        ]);
+    }
+
+    #[Route('/admin/ajout', name: 'admin.formation.ajout')]
+    public function ajout(Request $request): Response {
+        $formation = new Formation();
+        $formFormation = $this->createForm(FormationType::class, $formation);
+
+        $formFormation->handleRequest($request);
+        if ($formFormation->isSubmitted() && $formFormation->isValid()) {
+            $this->formationRepository->add($formation);
+            return $this->redirectToRoute('admin.formations');
+        }
+
+        return $this->render("admin/admin.formation.ajout.html.twig", [
+                    'formation' => $formation,
+                    'formFormation' => $formFormation->createView()
+        ]);
+    }
 }

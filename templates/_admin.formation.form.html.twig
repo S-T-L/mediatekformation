@@ -1,20 +1,20 @@
-{{ form_start(formformation) }}
+{{ form_start(formFormation) }}
 <div class="row">
     <div class="col">
         <div class="row">
             <div class="col-auto">
-                {{ form_row(formformation.publishedAt) }}
+                {{ form_row(formFormation.publishedAt) }}
             </div>
 
         </div>
-        {{ form_row(formformation.title) }}
-        {{ form_row(formformation.playlist) }}
-        {{ form_row(formformation.categories) }}
+        {{ form_row(formFormation.title) }}
+        {{ form_row(formFormation.playlist) }}
+        {{ form_row(formFormation.categories) }}
     </div>
     <div class="col">
         <!-- emplacement image -->
         <div>
-            {{ form_row(formformation.videoId) }}
+            {{ form_row(formFormation.videoId) }}
             Image actuelle
             {% if formation.miniature %}
                 <a href="{{ path('formations.showone', {id:"formation.id"}) }}">
@@ -32,9 +32,9 @@
     </div>
     <div class="row">
         <div class="col">
-            {{ form_row(formformation.description) }}
+            {{ form_row(formFormation.description) }}
         </div>
     </div>
 
-    {{ form_end(formformation) }}
+    {{ form_end(formFormation) }}
 
