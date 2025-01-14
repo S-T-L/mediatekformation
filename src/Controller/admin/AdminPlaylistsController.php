@@ -63,11 +63,11 @@ class AdminPlaylistsController extends AbstractController {
         ]);
     }
 
-    #[Route('/admin/playlist/suppr/{id}', name: 'admin.playlist.suppr')]
+    #[Route('/admin/playlists/suppr/{id}', name: 'admin.playlist.suppr')]
     public function suppr(Playlist $playlist): Response {
-
+        
         $this->playlistRepository->remove($playlist);
-        return $this->redirectToRoute('admin/playlists');
+        return $this->redirectToRoute('admin.playlists');
     }
 
     #[Route('/admin/playlists/tri/{champ}/{ordre}', name: 'admin.playlists.sort')]
@@ -116,19 +116,35 @@ class AdminPlaylistsController extends AbstractController {
 
     #[Route('/admin/playlist/edit/{id}', name: 'admin.playlist.edit')]
     public function edit(Playlist $playlist, Request $request): Response {
-        $formplaylist = $this->createForm(PlaylistType::class, $playlist);
+        $formPlaylist = $this->createForm(PlaylistType::class, $playlist);
 
-        $formplaylist->handleRequest($request);
-        if ($formplaylist->isSubmitted() && $formplaylist->isValid()) {
+        $formPlaylist->handleRequest($request);
+        if ($formPlaylist->isSubmitted() && $formPlaylist->isValid()) {
             $this->playlistRepository->add($playlist);
             return $this->redirectToRoute('admin.playlists');
         }
 
         return $this->render("admin/admin.playlist.edit.html.twig", [
                     'playlist' => $playlist,
-                    'formplaylist' => $formplaylist->createView()
+                    'formPlaylist' => $formPlaylist->createView()
         ]);
     }
-
+    
+    #[Route('/admin/playlist/ajout/', name : 'admin.playlist.ajout')]
+    public function ajout(Request $request) : response{
+        $playlist = new Playlist();
+        $formPlaylist = $this-> createForm(PlaylistType::class, $playlist);
+        
+        $formPlaylist->handleRequest($request);
+        if($formPlaylist->isSubmitted()&& $formPlaylist->isValid()){
+            $this->playlistRepository->add($playlist);
+            return $this->redirectToRoute('admin.playlists');
+    
+        }
+        return $this->render("admin/admin.playlist.ajout.html.twig", [
+            'playlist' => $playlist,
+            'formPlaylist' => $formPlaylist->createView()
+        ]);
+    }
  
 }

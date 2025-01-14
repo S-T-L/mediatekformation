@@ -1,0 +1,57 @@
+{% extends "baseadmin.html.twig" %}
+
+{% block body %}
+    {# Affichage des alertes avec gestion des messages flash #}
+    {% for label, messages in app.flashes %}
+        <div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+    
+    <h5>Gestion des catégories</h5>
+    
+    {# Formulaire d'ajout de catégorie (hors tableau) #}
+    <div class="text-end mb-3">
+        <form class="form-inline" method="POST" action="{{ path('admin.categorie.ajout') }}">
+            <div class="form-group">
+                <input type="text" class="form-control form-control-sm" name="name" placeholder="Nom de la catégorie">
+                <input type="hidden" name="_token" value="{{ csrf_token('filtre_name') }}">
+                <button type="submit" class="btn btn-primary btn-sm">Ajouter une catégorie</button>
+            </div>
+        </form>
+    </div>
+    
+    <table class="table table-striped">
+        <thead>  
+            <tr>
+                <th scope="col">Catégories</th>
+                <th scope="col">Formations</th>
+                <th scope="col">Suppression</th>
+            </tr>
+        </thead>
+        <tbody>
+            {# Boucle qui affiche la liste des catégories et de leurs formations #}
+            {% for categorie in categories %}
+                <tr>
+                    <td>
+                        <h5 class="text-info">{{ categorie.name }}</h5>
+                    </td>
+                    <td>
+                        {% for formation in categorie.formations %}
+                            {{ formation.title }}<br />
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% if categorie.formations|length == 0 %}
+                            <a href="{{ path('admin.categorie.suppr', {id: categorie.id}) }}" class="btn btn-danger btn-sm" 
+                               onclick="return confirm('Etes-vous sûr de vouloir supprimer {{ categorie.name }} ?');">Supprimer</a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

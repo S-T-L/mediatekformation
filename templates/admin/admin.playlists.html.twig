@@ -1,7 +1,7 @@
 {% extends "baseadmin.html.twig" %}
 {% block body %}
      <p class="text-end">
-        <a href="#" class="btn btn-info mb-2 btn-sm">
+        <a href="{{ path('admin.playlist.ajout') }}" class="btn btn-info mb-2 btn-sm">
             Ajouter une nouvelle playlist
         </a>
     </p>
@@ -68,13 +68,11 @@
                         </td>
                         <td class="text-center">
                             {{ playlists[k].formations|length }}
-                        <td class="text-center">
-                            <a href="{{ path('admin.playlists.showone', {id:playlists[k].id}) }}" class="btn btn-secondary">Voir détail</a>
-                        </td>
+                       
                         <td>
                             <a href="{{ path('admin.playlist.edit', {id:playlists[k].id}) }}" class="btn btn-secondary">Modifier</a>
                             {% if playlists[k].formations|length == 0 %}
-                            <a href="{{ path('admin.playlist.suppr', {id:playlists[k].id}) }}" class="btn btn-danger" onclick="return confirm('Etes-vous sûr de vouloir supprimer {{playlists[k].name}}?');">Supprimer</a>
+                            <a href="{{ path('admin.playlist.suppr',{id:playlists[k].id})  }}" class="btn btn-danger" onclick="return confirm('Etes-vous sûr de vouloir supprimer {{playlists[k].name}}?');">Supprimer</a>
                             {% endif %}
                         </td>
                     </tr>
