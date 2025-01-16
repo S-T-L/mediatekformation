@@ -23,7 +23,7 @@ class Formation {
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    #[Assert\LessThanOrEqual('now', message:"La date de publication ne peut pas être postérieure à aujourd'hui")]
+    #[Assert\LessThanOrEqual('today', message:"La date de publication ne peut pas être postérieure à aujourd'hui")]
     private ?\DateTimeInterface $publishedAt = null;
 
     #[ORM\Column(length: 100, nullable: true)]
@@ -61,7 +61,7 @@ class Formation {
 
         return $this;
     }
-
+    
     public function getPublishedAtString(): string {
         if ($this->publishedAt == null) {
             return "";
