@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Description of AdminFormationsController
+ * Controleur page admin Formations
  *
  * @author estel
  */
@@ -21,19 +21,19 @@ class AdminFormationsController extends AbstractController {
     const PAGES_FORMATIONS_ADMIN = "admin/admin.formations.html.twig";
 
     /**
-     * 
+     * Accès aux formations
      * @var FormationRepository
      */
     private $formationRepository;
 
     /**
-     * 
+     * Accès aux catégories
      * @var CategorieRepository
      */
     private $categorieRepository;
 
     /**
-     * 
+     * Création du contructeur
      * @param FormationRepository $formationRepository
      * @param CategorieRepository $categorieRepository
      */
@@ -43,7 +43,7 @@ class AdminFormationsController extends AbstractController {
     }
 
     /**
-     * 
+     * Route page admin formations
      * @return Response
      */
     #[Route('/admin', name: 'admin.formations')]
@@ -57,7 +57,7 @@ class AdminFormationsController extends AbstractController {
     }
 
     /**
-     * 
+     * Tri des formaitons en fonction du champs et ordre spécifié
      * @param type $champ
      * @param type $ordre
      * @param type $table
@@ -74,7 +74,7 @@ class AdminFormationsController extends AbstractController {
     }
 
     /**
-     * 
+     * Filtre les formations en fonction de la valeur saisie par l'utilisateur
      * @param type $champ
      * @param Request $request
      * @param type $table
@@ -93,6 +93,11 @@ class AdminFormationsController extends AbstractController {
         ]);
     }
 
+    /**
+     * Suprression d'une formation
+     * @param Formation $formation
+     * @return Response
+     */
     #[Route('/admin/suppr/{id}', name: 'admin.formations.suppr')]
     public function suppr(Formation $formation): Response {
         if ($formation) {
@@ -110,6 +115,12 @@ class AdminFormationsController extends AbstractController {
         return $this->redirectToRoute('admin.formations');
     }
 
+    /**
+     * Modification d'une formation
+     * @param Formation $formation
+     * @param Request $request
+     * @return Response
+     */
     #[Route('/admin/edit/{id}', name: 'admin.formation.edit')]
     public function edit(Formation $formation, Request $request): Response {
         $formFormation = $this->createForm(FormationType::class, $formation);
@@ -126,6 +137,11 @@ class AdminFormationsController extends AbstractController {
         ]);
     }
 
+    /**
+     * Ajout d'une formation
+     * @param Request $request
+     * @return Response
+     */
     #[Route('/admin/ajout', name: 'admin.formation.ajout')]
     public function ajout(Request $request): Response {
         $formation = new Formation();

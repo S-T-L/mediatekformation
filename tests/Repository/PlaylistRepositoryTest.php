@@ -17,48 +17,52 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
  * @author estel
  */
 class PlaylistRepositoryTest extends KernelTestCase {
+
     /**
      * récupération de Repository Playlist
      * @return PlaylistRepository
      */
-     public function recupRepository(): PlaylistRepository{
+    public function recupRepository(): PlaylistRepository {
         self::bootKernel();
         $repository = self::getContainer()->get(PlaylistRepository::class);
         return $repository;
     }
-    
+
     /**
      * récupère le nombre de playlists
      */
-     public function testNbPlaylists(){
+    public function testNbPlaylists() {
         $repository = $this->recupRepository();
         $nbPlaylists = $repository->count([]);
         $this->assertEquals(27, $nbPlaylists);
     }
+
     /**
      * création d'une nouvelle playlist
      * @return Playlist
      */
-      public function newPlaylist(): Playlist {
+    public function newPlaylist(): Playlist {
         $playlist = (new Playlist())
-                   ->setName(" test Titre de la playlist")
-                   ->setDescription("test Description de la playlist");
+                ->setName(" test Titre de la playlist")
+                ->setDescription("test Description de la playlist");
         return $playlist;
     }
+
     /**
      * test de l'ajout d'une playlist
      */
-     public function testAddPlaylist(){
+    public function testAddPlaylist() {
         $repository = $this->recupRepository();
         $playlist = $this->newPlaylist();
         $nbPlaylists = $repository->count([]);
         $repository->add($playlist, true);
         $this->assertEquals($nbPlaylists + 1, $repository->count([]), "erreur lors de l'ajout");
     }
+
     /**
      * test de suppression d'une playlist
      */
-     public function testRemovePlaylist() {
+    public function testRemovePlaylist() {
         $repository = $this->recupRepository();
         $playlist = $this->newPlaylist();
         $repository->add($playlist, true);
@@ -66,5 +70,23 @@ class PlaylistRepositoryTest extends KernelTestCase {
         $repository->remove($playlist, true);
         $this->assertEquals($nbPlaylist - 1, $repository->count([]), "Erreur lors de la suppression de la playlist");
     }
-    //put your code here
+
+    public function testFindAllOrderByName() {
+        $repository = $this->recupRepository();
+        $playlist = $repository->findAllOrderByName("DESC");
+        $nbplaylist = count($playlist);
+        $this->assertEquals(27, $nbplaylist);
+        $this->assertEquals('Visual Studio 2019 et C#', $playlist[0]->getName());
+    }
+
+    public function testFindAllOrderByTotalNb() {
+        $repository = $this->recupRepository();
+
+        $playlists = $repository->findAllOrderByTotalNb("ASC");
+        $nbPlaylists = count($playlists);
+        $this->assertEquals(27, $nbPlaylists);
+        $this->assertEquals("Cours Informatique embarquée", $playlists[0]->getName());
+    }
+
+   
 }

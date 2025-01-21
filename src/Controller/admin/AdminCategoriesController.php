@@ -23,19 +23,19 @@ use Symfony\Component\Routing\Annotation\Route;
 class AdminCategoriesController extends AbstractController {
 
     /**
-     * 
+     * Accès aux formations
      * @var FormationRepository
      */
     private $formationRepository;
 
     /**
-     * 
+     * Accès aux catégories
      * @var CategorieRepository
      */
     private $categorieRepository;
 
     /**
-     * 
+     * Constructeur
      * @param FormationRepository $formationRepository
      * @param CategorieRepository $categorieRepository
      */
@@ -44,6 +44,10 @@ class AdminCategoriesController extends AbstractController {
         $this->categorieRepository = $categorieRepository;
     }
 
+    /**
+     * Route Page admin catégorie
+     * @return Response
+     */
     #[Route('/admin/categories', name: 'admin.categories')]
     public function index(): Response {
         $formations = $this->formationRepository->findAll();
@@ -54,6 +58,11 @@ class AdminCategoriesController extends AbstractController {
         ]);
     }
 
+    /**
+     * Ajout d'une catégorie 
+     * @param Request $request
+     * @return Response
+     */
     #[Route('/admin/categorie/ajout', name: 'admin.categorie.ajout', methods: ['POST'])]
     public function ajout(Request $request): Response {
         $name = $request->get("name");
@@ -76,10 +85,15 @@ class AdminCategoriesController extends AbstractController {
 
         return $this->redirectToRoute('admin.categories');
     }
-    
-      #[Route('/admin/categorie/suppr{id}', name: 'admin.categorie.suppr')]
+
+    /**
+     * Suppression d'une catégorie, redirection vers la page admin
+     * @param Categorie $categorie
+     * @return Response
+     */
+    #[Route('/admin/categorie/suppr{id}', name: 'admin.categorie.suppr')]
     public function suppr(Categorie $categorie): Response {
-        
+
         $this->categorieRepository->remove($categorie);
         return $this->redirectToRoute('admin.categories');
     }

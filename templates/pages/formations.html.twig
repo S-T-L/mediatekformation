@@ -31,9 +31,9 @@
                     </form>                    
                 </th>
                 <th class="text-left align-top" scope="col">
-                    catégories
-                    <form class="form-inline mt-1" method="POST" action="{{ path('formations.findallcontain', {champ:'id', table:'categories'}) }}">
-                        <select class="form-select form-select-sm" name="recherche" id="recherche" onchange="this.form.submit()">
+                    catégories<br />
+                    <form class="form-inline mt-1 filtre-categorie" method="POST" action="{{ path('formations.findallcontain', {champ:'id', table:'categories'}) }}">
+                        <select class="form-select form-select-sm" name="recherche" id="recherche" onchange="this.form.submit();">
                         <option value=""></option>
                         {% for categorie in categories %}
                             <option 
@@ -43,7 +43,8 @@
                                 value="{{ categorie.id }}">{{ categorie.name }}
                             </option>
                         {% endfor %}
-                        </select>                    
+                        </select> 
+                        <input type="hidden" name="_token" value="{{ csrf_token('filtre_id') }}">
                     </form>            
                 </th>
                 <th class="text-center align-top" scope="col">
@@ -78,7 +79,7 @@
                     <td class="text-center">
                         {% if formation.miniature %}
                             <a href="{{ path('formations.showone', {id:formation.id}) }}">
-                                <img src="{{ formation.miniature }}" alt="Formations">
+                                <img src="{{ formation.miniature }}" alt="formations en miniature">
                             </a>
                         {% endif %}
                     </td>

@@ -6,9 +6,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-
+/**
+ * Authentification
+ */
 class LoginController extends AbstractController
 {
+    /**
+     * Affichage de la page de connexion 
+     * @param AuthenticationUtils $authenticationUtils
+     * @return Response
+     */
     #[Route('/login', name: 'app_login')]
     public function index(AuthenticationUtils $authenticationUtils): Response
     {
@@ -22,7 +29,9 @@ class LoginController extends AbstractController
         ]);
     }
     
-    //Gerer la deconnexion
+    /**
+     * Gestion de la deconnexion
+     */
     #[Route('/logout',name:'logout')]
     public function logout(){
         

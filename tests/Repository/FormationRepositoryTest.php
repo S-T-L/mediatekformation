@@ -1,10 +1,5 @@
 <?php
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/PHPClass.php to edit this template
- */
-
 namespace App\Tests\Repository;
 
 use App\Entity\Formation;
@@ -13,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use DateTime;
 
 /**
- * Description of FormationRepositoryTest
+ * tests d'intégration sur FormationRepository
  *
  * @author estel
  */
@@ -39,14 +34,14 @@ class FormationRepositoryTest extends KernelTestCase {
     }
 
     /**
-     * Création d'une instance de formation
+     * Création d'une instance de formation pour les tests
      * @return Formation
      */
     public function newFormation(): Formation {
         $formation = (new Formation())
-                ->setTitle("Titre de la formation")
-                ->setDescription("Description de la formation")
-                ->setPublishedAt(new DateTime('now'));
+                ->setTitle("test Titre de la formation")
+                ->setDescription("test Description de la formation")
+                ->setPublishedAt(new DateTime("2025-01-17"));
         return $formation;
     }
 
@@ -89,5 +84,42 @@ class FormationRepositoryTest extends KernelTestCase {
         $this->assertEquals("UML : Diagramme de paquetages", $formationsDesc[0]->getTitle());
         
         
+    }
+    /**
+     * filtre les formations avec une valeur spécifique
+     */
+     public function testFindByContainValue(){
+        $repository = $this->recupRepository();
+        $formation = $this->newFormation();
+        $repository->add($formation, true);
+        $formations = $repository->findByContainValue("title", "Eclipse");
+        $nbFormations = count($formations);
+        $this->assertEquals(9, $nbFormations);
+        $this->assertEquals("Eclipse n°8 : Déploiement", $formations[0]->getTitle());
+    }
+    
+    /**
+     * Test de la récupération de la formation la plus récente
+     */
+    public function testFindAllLasted(){
+        $repository = $this->recupRepository();
+        $formation = $this->newFormation();
+        $repository->add($formation, true);
+        $formations = $repository->findAllLasted(1);
+        $nbFormations = count($formations);
+        $this->assertEquals(1, $nbFormations);
+        $this->assertEquals(new DateTime("2025/01/17 00:00:00 "), $formations[0]->getPublishedAt());
+    }
+    /**
+     * Test de la récupération des formations d'une playlist selon son id
+     */
+     public function testFindAllForOnePlaylist(){
+        $repository = $this->recupRepository();
+        $formation = $this->newFormation();
+        $repository->add($formation, true);
+        $formations = $repository->findAllForOnePlaylist(2);
+        $nbFormations = count($formations);
+        $this->assertEquals(11, $nbFormations);
+        $this->assertEquals("C# : présentation des objets graphiques",$formations[0]->getTitle());
     }
 }

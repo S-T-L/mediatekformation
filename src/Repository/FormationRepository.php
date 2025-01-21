@@ -80,6 +80,7 @@ class FormationRepository extends ServiceEntityRepository
         }       
     }    
     
+    
     /**
      * Retourne les n formations les plus récentes
      * @param type $nb
