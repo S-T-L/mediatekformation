@@ -14,11 +14,17 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PlaylistType extends AbstractType
 {
+    /**
+     * 
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     * @return void
+     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('name', TextType::class, [
-                'label' => 'Playlist',
+                'label' => 'Nom de la playlist',
                 'required'=> true])
             
          ->add('description', TextareaType::class, [
@@ -36,6 +42,11 @@ class PlaylistType extends AbstractType
             ]);
     }
 
+    /**
+     * 
+     * @param OptionsResolver $resolver
+     * @return void
+     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

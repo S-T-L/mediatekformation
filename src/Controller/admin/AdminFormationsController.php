@@ -94,7 +94,7 @@ class AdminFormationsController extends AbstractController {
     }
 
     /**
-     * Suprression d'une formation
+     * Suppression d'une formation
      * @param Formation $formation
      * @return Response
      */
@@ -110,7 +110,7 @@ class AdminFormationsController extends AbstractController {
             //Suppression dans la bdd
             $this->formationRepository->remove($formation);
         }
-
+        $this->addFlash('danger','La formation' . $formation->getTitle() . ' a été supprimée avec succès.');
 
         return $this->redirectToRoute('admin.formations');
     }
@@ -128,6 +128,7 @@ class AdminFormationsController extends AbstractController {
         $formFormation->handleRequest($request);
         if ($formFormation->isSubmitted() && $formFormation->isValid()) {
             $this->formationRepository->add($formation);
+            $this->addFlash('success', 'La modification de la formation ' . $formation->getTitle() . ' a bien été prise en compte.');
             return $this->redirectToRoute('admin.formations');
         }
 
@@ -150,6 +151,7 @@ class AdminFormationsController extends AbstractController {
         $formFormation->handleRequest($request);
         if ($formFormation->isSubmitted() && $formFormation->isValid()) {
             $this->formationRepository->add($formation);
+            $this->addFlash('success','La formation ' . $formation->getTitle() . ' a été ajoutée au catalogue.');
             return $this->redirectToRoute('admin.formations');
         }
 

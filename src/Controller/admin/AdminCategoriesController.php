@@ -75,12 +75,12 @@ class AdminCategoriesController extends AbstractController {
         $existCategorie = $this->categorieRepository->findOneByName($name);
 
         if ($existCategorie) {
-            $this->addFlash('danger', 'La catégorie "' . $name . '" existe déjà.');
+            $this->addFlash('danger', 'La catégorie ' . $name . '" existe déjà.');
         } else {
-            $categories = new Categorie();
-            $categories->setName($name);
-            $this->categorieRepository->add($categories, true);
-            $this->addFlash('success', 'La catégorie "' . $name . '" a été ajoutée avec succès.');
+            $categorie = new Categorie();
+            $categorie->setName($name);
+            $this->categorieRepository->add($categorie, true);
+            $this->addFlash('success', 'La catégorie "' . $categorie->getName() . '" a été ajoutée avec succès.');
         }
 
         return $this->redirectToRoute('admin.categories');
@@ -95,6 +95,7 @@ class AdminCategoriesController extends AbstractController {
     public function suppr(Categorie $categorie): Response {
 
         $this->categorieRepository->remove($categorie);
+        $this->addFlash('success', 'La catégorie "' . $categorie->getName() . '" a été supprimée.');
         return $this->redirectToRoute('admin.categories');
     }
 }

@@ -68,6 +68,7 @@ class AdminPlaylistsController extends AbstractController {
                     'categories' => $categories
         ]);
     }
+
     /**
      * Suppression d'une playlist
      * @param Playlist $playlist
@@ -75,10 +76,12 @@ class AdminPlaylistsController extends AbstractController {
      */
     #[Route('/admin/playlists/suppr/{id}', name: 'admin.playlist.suppr')]
     public function suppr(Playlist $playlist): Response {
-        
+
         $this->playlistRepository->remove($playlist);
+        $this->addFlash('success', 'La suppression de la playlist  ' . $playlist->getName() . " a bien été prise en compte.");
         return $this->redirectToRoute('admin.playlists');
     }
+
     /**
      * Tri des playlists selon le champ
      * @param type $champ
@@ -104,6 +107,7 @@ class AdminPlaylistsController extends AbstractController {
                     'categories' => $categories
         ]);
     }
+
     /**
      * Filtre selon la valeur renseignée 
      * @param type $champ
@@ -123,6 +127,7 @@ class AdminPlaylistsController extends AbstractController {
                     'table' => $table
         ]);
     }
+
     /**
      * Accès à page playlist
      * @param type $id
@@ -139,6 +144,7 @@ class AdminPlaylistsController extends AbstractController {
                     'playlistformations' => $playlistFormations
         ]);
     }
+
     /**
      * Modification d'une playlist
      * @param Playlist $playlist
@@ -152,6 +158,7 @@ class AdminPlaylistsController extends AbstractController {
         $formPlaylist->handleRequest($request);
         if ($formPlaylist->isSubmitted() && $formPlaylist->isValid()) {
             $this->playlistRepository->add($playlist);
+             $this->addFlash('success','La playlist ' . $playlist->getName() . " a bien été modifiée.");
             return $this->redirectToRoute('admin.playlists');
         }
 
@@ -160,26 +167,26 @@ class AdminPlaylistsController extends AbstractController {
                     'formPlaylist' => $formPlaylist->createView()
         ]);
     }
+
     /**
      * Ajout d'une playlist
      * @param Request $request
      * @return response
      */
-    #[Route('/admin/playlist/ajout/', name : 'admin.playlist.ajout')]
-    public function ajout(Request $request) : response{
+    #[Route('/admin/playlist/ajout/', name: 'admin.playlist.ajout')]
+    public function ajout(Request $request): response {
         $playlist = new Playlist();
-        $formPlaylist = $this-> createForm(PlaylistType::class, $playlist);
-        
+        $formPlaylist = $this->createForm(PlaylistType::class, $playlist);
+
         $formPlaylist->handleRequest($request);
-        if($formPlaylist->isSubmitted()&& $formPlaylist->isValid()){
+        if ($formPlaylist->isSubmitted() && $formPlaylist->isValid()) {
             $this->playlistRepository->add($playlist);
+             $this->addFlash('success','La playlist ' . $playlist->getName() . " a été effectuée avec succès.");
             return $this->redirectToRoute('admin.playlists');
-    
         }
         return $this->render("admin/admin.playlist.ajout.html.twig", [
-            'playlist' => $playlist,
-            'formPlaylist' => $formPlaylist->createView()
+                    'playlist' => $playlist,
+                    'formPlaylist' => $formPlaylist->createView()
         ]);
     }
- 
 }

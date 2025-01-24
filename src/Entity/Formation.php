@@ -22,6 +22,10 @@ class Formation {
     #[ORM\Column]
     private ?int $id = null;
 
+    /**
+     * 
+     * @var \DateTimeInterface|null
+     */
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     #[Assert\LessThanOrEqual('today', message:"La date de publication ne peut pas être postérieure à aujourd'hui")]
     private ?\DateTimeInterface $publishedAt = null;

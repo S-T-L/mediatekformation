@@ -12,22 +12,9 @@
         {{ form_row(formFormation.categories) }}
     </div>
     <div class="col">
-        <!-- emplacement image -->
         <div>
             {{ form_row(formFormation.videoId) }}
-            Image actuelle
-            {% if formation.miniature %}
-                <a href="{{ path('formations.showone', {id:"formation.id"}) }}">
-                    {% if formation.id != "" %}
-                        <img src="{{ formation.miniature }}" alt="ecran de formation">
-                    {% else %}
-                        <p>(aucune image)</p>
-                    {% endif %}
-                </a>
-            {% else %}
-                <p>(aucune image)</p>
-            {% endif %}            
-            </ div >
+
         </div>
     </div>
     <div class="row">
