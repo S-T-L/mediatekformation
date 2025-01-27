@@ -6,16 +6,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Get latest code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       
     - name: Sync files
-      uses: SamKirkland/FTP-Deploy-Action@4.3.0
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
       with:
         server: iron.qabox.fr
         server-dir: /home/qabox-mediatekformation/htdocs/mediatekformation.qabox.fr/
         username: ftp-mediatekformation
         password: ${{ secrets.ftp_password }}
-        passive : true
+        timeout: 360000
+        protocol: ftp
+        port: 21
+        exclude: |
+          **/.git*
+          **/.git*/**
         
 
 
