@@ -15,5 +15,7 @@ jobs:
         server-dir: /home/qabox-mediatekformation/htdocs/mediatekformation.qabox.fr/
         username: ftp-mediatekformation
         password: ${{ secrets.ftp_password }}
+        passive : true
+        
 
 
