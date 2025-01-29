@@ -1,11 +1,11 @@
 {% extends "basefront.html.twig" %}
 {% block body %}
     <table class="table table-striped">
-        <caption>Liste des  </caption>
+        <caption>Liste des formations  </caption>
         <thead>
             <tr>
                 <th class="text-left align-top" scope="col">
-                    Formions<br />
+                    Formaions<br />
                     <a href="{{ path('formations.sort', {champ:'title', ordre:'ASC'}) }}" class="btn btn-info btn-sm active" role="button" aria-pressed="true"><</a>
                     <a href="{{ path('formations.sort', {champ:'title', ordre:'DESC'}) }}" class="btn btn-info btn-sm active" role="button" aria-pressed="true">></a>
                     <form class="form-inline mt-1" method="POST" action="{{ path('formations.findallcontain', {champ:'title'}) }}">
