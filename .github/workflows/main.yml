@@ -12,7 +12,7 @@ jobs:
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
       with:
         server: iron.qabox.fr
-        server-dir: /home/qabox-mediatekformation/
+        server-dir: mediatekformation.qabox.fr/public
         username: ftp-mediatekformation
         password: ${{ secrets.ftp_password }}
         timeout: 360000
