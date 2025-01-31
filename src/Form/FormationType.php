@@ -11,6 +11,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -27,13 +28,13 @@ class FormationType extends AbstractType {
         $builder
                 ->add('publishedAt', DateType::class, [
                     'label' => 'Date de publication',
-                    'widget' => 'single_text', // Utiliser un champ de texte unique
+                    'widget' => 'single_text', 
                     'data' => isset($options['data']) &&
                     $options['data']->getPublishedAt() != null ? $options['data']->getPublishedAt() : new DateTime('now'),
                     'html5' => true, // Utiliser le sélecteur de date natif HTML5
                     'required' => true,
                     'attr' => [
-                        'placeholder' => 'jj/mm/aaaa', // Texte d'invite
+                        'placeholder' => 'jj/mm/aaaa', 
                         'onkeydown' => 'return false;', // Empêche la saisie de texte
                     ],
                 ])
@@ -42,7 +43,9 @@ class FormationType extends AbstractType {
                     'required' => true,
                         ]
                 )
-                ->add('description')
+                ->add('description', TextareaType::class,[
+                    'required'=> false,
+                ])
                 ->add('categories', EntityType::class, [
                     'class' => Categorie::class,
                     'choice_label' => 'name',
