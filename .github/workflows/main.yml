@@ -18,14 +18,7 @@ jobs:
         timeout: 360000
         protocol: ftp
         port: 21
-        exclude: |
-          **/.git*
-          **/.git*/**
-          **/.env
-          **/.env.test
-          **/node_modules/**
-          **/vendor/**
-          **/tests/**
+        
         
 
 
